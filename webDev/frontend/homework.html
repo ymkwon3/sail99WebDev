@@ -60,12 +60,29 @@
             margin: 20px auto;
         }
     </style>
+
+    <script>
+        //페이지 로딩시 실행시켜주는 jquery
+        $(document).ready(function() {
+           console.log("로딩완료");
+           $.ajax({
+               type: "GET",
+               url: "http://spartacodingclub.shop/sparta_api/weather/jinju",
+               data: {},
+               success: function(res) {
+                   let temperature = res['temp'];
+                   $('#temp').text(temperature);
+               },
+           });
+        });
+    </script>
 </head>
 
 <body>
     <div class="mytitle">
         <h1>수고했어 오늘도</h1>
         <p>오늘 하루도 고생한 나를 위해 쓰는 글</p>
+        <p>현재 진주의 기온은...<span id="temp"></span>°C</p>
     </div>
 
     <div class="mypost">
