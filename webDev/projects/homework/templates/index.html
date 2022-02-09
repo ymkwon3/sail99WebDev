@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Poor+Story&display=swap" rel="stylesheet">
+
+    <title>가장 열혈팬은 바로 나!</title>
+<!--    따로 좋아하는 연예인이 없어서 이렇게 만든 점 양해부탁드립니다 ㅠ-->
+    <style>
+        * {
+            font-family: 'Poor Story', cursive;
+        }
+
+        .mytitle {
+            width: 100%;
+            height: 300px;
+
+            background-color: violet;
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://p4.wallpaperbetter.com/wallpaper/892/823/629/skyline-vector-vector-art-illustration-simple-hd-wallpaper-preview.jpg");
+            background-position: center;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mypost {
+            max-width: 500px;
+            width: 95%;
+
+            margin: 20px auto;
+            padding: 20px;
+
+            border-radius: 5px;
+            box-shadow: 0 0 5px 0 gray;
+        }
+
+        .mybtn {
+            margin-top: 20px;
+        }
+
+        .card {
+            max-width: 500px;
+            width: 95%;
+
+            margin: 20px auto;
+        }
+    </style>
+
+    <script>
+        //페이지 로딩시 실행시켜주는 jquery
+        $(document).ready(function () {
+            set_temp()
+            show_comment()
+        });
+
+        function set_temp() {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/sparta_api/weather/jinju",
+                data: {},
+                success: function (response) {
+                    $('#temp').text(response['temp'])
+                }
+            })
+        }
+
+        function save_comment() {
+            let name = $('#name').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                type: 'POST',
+                url: '/homework',
+                data: {name_give: name, comment_give:comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/homework",
+                data: {},
+                success: function (response) {
+                    let rows = response['posts'];
+                    for(let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name'];
+                        let comment = rows[i]['comment'];
+
+                        let temp_html = `
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <blockquote class="blockquote mb-0">
+                                                <p>${comment}</p>
+                                                <footer class="blockquote-footer"><cite title="Source Title">${name}</cite>
+                                                </footer>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                        `
+                        $('#posts').append(temp_html);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1>수고했어 오늘도</h1>
+        <p>오늘 하루도 고생한 나를 위해 쓰는 글</p>
+        <p>현재 진주의 기온은...<span id="temp"></span>°C</p>
+    </div>
+
+    <div class="mypost">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="name" placeholder="닉네임">
+            <label for="name">닉네임</label>
+        </div>
+
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="comment"
+                      style="height: 100px"></textarea>
+            <label for="comment">응원댓글</label>
+        </div>
+
+        <button type="button" class="btn btn-dark mybtn" onclick="save_comment()">응원 남기기</button>
+
+    </div>
+
+    <div id="posts">
+    </div>
+
+
+</body>
+
+</html>
