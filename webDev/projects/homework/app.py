@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import certifi
 from ignore import *
 
@@ -28,10 +29,20 @@ def homework_post():
     db.homework.insert_one(doc)
     return jsonify({'msg':'응원 완료!'})
 
+@app.route("/homework/delete", methods=["POST"])
+def homework_post_delete():
+    id_recv = request.form['id_give']
+
+    # homework 테이블에 위에서 지정한 객체를 저장
+    db.homework.delete_one({'_id':ObjectId(id_recv)})
+    return jsonify({'msg':'삭제 완료!'})
+
 @app.route("/homework", methods=["GET"])
 def homework_get():
     # 데이터베이스 homework 테이블에서 아이디를 제외한 데이터들을 불러와 리스트로 저장
-    post_list = list(db.homework.find({}, {'_id': False}))
+    post_list = list(db.homework.find())
+    for post in post_list:
+        post['_id'] = str(post['_id'])
     return jsonify({'posts':post_list})
 
 if __name__ == '__main__':
