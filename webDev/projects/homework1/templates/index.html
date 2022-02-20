@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta property="og:title" content="수고했어 오늘도"/>
+    <meta property="og:description" content="오늘 하루도 고생한 나를 위해 쓰는 글"/>
+    <meta property="og:image"
+          content="https://p4.wallpaperbetter.com/wallpaper/892/823/629/skyline-vector-vector-art-illustration-simple-hd-wallpaper-preview.jpg"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Poor+Story&display=swap" rel="stylesheet">
+
+    <title>가장 열혈팬은 바로 나!</title>
+    <!--    따로 좋아하는 연예인이 없어서 이렇게 만든 점 양해부탁드립니다 ㅠ-->
+    <style>
+        * {
+            font-family: 'Poor Story', cursive;
+        }
+
+        :root[color-theme='light'] {
+            --background: #fff;
+            --color: #000;
+            --warning: #f00;
+        }
+
+        :root[color-theme='dark'] {
+            --background: #1e1e1e;
+            --color: #fff;
+            --warning: #f00;
+        }
+
+        body {
+            background-color: var(--background);
+        }
+
+        input, textarea {
+            background-color: var(--background) !important;
+        }
+
+        input, textarea, label {
+            color: var(--color) !important;
+        }
+
+        .mytitle {
+            width: 100%;
+            height: 300px;
+
+            background-color: violet;
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://p4.wallpaperbetter.com/wallpaper/892/823/629/skyline-vector-vector-art-illustration-simple-hd-wallpaper-preview.jpg");
+            background-position: center;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mypost {
+            max-width: 500px;
+            width: 95%;
+
+            margin: 20px auto;
+            padding: 20px;
+
+            border-radius: 5px;
+            box-shadow: 0 0 4px 0 var(--color);
+        }
+
+        .mybtn {
+            margin-top: 20px;
+            border-color: var(--color);
+            background-color: var(--background);
+            color: var(--color);
+        }
+
+        .card {
+            max-width: 500px;
+            width: 95%;
+
+            margin: 20px auto;
+
+            background-color: var(--background);
+            box-shadow: 0 0 2px 0 var(--color);
+            color: var(--color);
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .card-body > button {
+            position: absolute;
+            right: 15px;
+
+            border: 1px solid var(--warning);
+            border-radius: 5px;
+            background-color: var(--background);
+            color: var(--warning);
+        }
+
+        .card-body > button:hover {
+            transform: scale(1.05);
+            transition-duration: 0.2s;
+        }
+
+        #themeBtn {
+            width: 60px;
+            height: 60px;
+
+            border: 1px solid var(--color);
+            color: var(--color);
+            border-radius: 30px;
+
+            position: fixed;
+            right: 10%;
+            bottom: 10%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            user-select: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        //페이지 로딩시 실행시켜주는 jquery
+        $(document).ready(function () {
+            let btn = $('#themeBtn');
+
+            set_temp()
+            show_comment()
+            if (localStorage.getItem('color-theme') === null || localStorage.getItem('color-theme') === 'dark') {
+                document.documentElement.setAttribute('color-theme', 'light');
+                btn.text('라이트');
+            } else {
+                document.documentElement.setAttribute('color-theme', 'dark');
+                btn.text('다크');
+            }
+        });
+
+        function set_temp() {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/sparta_api/weather/jinju",
+                data: {},
+                success: function (response) {
+                    $('#temp').text(response['temp'])
+                }
+            })
+        }
+
+        function save_comment() {
+            let name = $('#name').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                type: 'POST',
+                url: '/homework',
+                data: {name_give: name, comment_give: comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+        function delete_comment(id) {
+            $.ajax({
+                type: 'POST',
+                url: '/homework/delete',
+                data: {id_give: id},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/homework",
+                data: {},
+                success: function (response) {
+                    let rows = response['posts'];
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name'];
+                        let comment = rows[i]['comment'];
+                        let id = rows[i]['_id'];
+
+                        let temp_html = `
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <blockquote class="blockquote mb-0">
+                                                <p>${comment}</p>
+                                                <footer class="blockquote-footer"><cite title="Source Title">${name}</cite>
+                                                </footer>
+                                            </blockquote>
+                                            <button onclick="delete_comment('${id}')">삭제</button>
+                                        </div>
+                                    </div>
+                        `
+                        $('#posts').append(temp_html);
+                    }
+                }
+            });
+        }
+
+        function themeChange() {
+            let btn = $('#themeBtn');
+            console.log(localStorage.getItem('color-theme'));
+            if (localStorage.getItem('color-theme') === 'light') {
+                localStorage.setItem('color-theme', 'dark');
+                document.documentElement.setAttribute('color-theme', 'dark');
+                btn.text('라이트');
+            } else {
+                localStorage.setItem('color-theme', 'light');
+                document.documentElement.setAttribute('color-theme', 'light');
+                btn.text('다크');
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div class="mytitle">
+    <h1>수고했어 오늘도</h1>
+    <p>오늘 하루도 고생한 나를 위해 쓰는 글</p>
+    <p>현재 진주의 기온은...<span id="temp"></span>°C</p>
+</div>
+
+<div id="themeBtn" onclick="themeChange()">
+</div>
+
+<div class="mypost">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="name" placeholder="닉네임">
+        <label for="name">닉네임</label>
+    </div>
+
+    <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="comment"
+                      style="height: 100px"></textarea>
+        <label for="comment">응원댓글</label>
+    </div>
+
+    <button type="button" class="btn btn-dark mybtn" onclick="save_comment()">응원 남기기</button>
+
+</div>
+
+<div id="posts">
+</div>
+
+
+</body>
+
+</html>

@@ -1,10 +1,8 @@
-import json
-
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import certifi
-import requests, xmltodict
+import requests
 from ignore import *
 
 ca = certifi.where()
@@ -12,7 +10,6 @@ client = MongoClient('mongodb+srv://'+id+':'+pw+'@cluster0.auvlv.mongodb.net/'+d
 db = client.dbsparta
 
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
 
 @app.route('/')
 def home():
@@ -52,14 +49,13 @@ def homework_get():
 
 # 산정보 api입니다.
 @app.route("/mountainInfo", methods=["GET"])
-def get_mountainInfo():
+def homework_get():
     url = 'http://apis.data.go.kr/1400000/service/cultureInfoService/mntInfoOpenAPI'
-    params = {'serviceKey': 'C1EvS3mDIvVFBeCI85YBjCPyaBYo54kb2xyrzOTz/WpWmx1kEc/7m6L5U9pWb7rJ2vb6VhWL5oQFWytEkHen4Q==', 'searchWrd': '북한산'}
+    params = {'serviceKey': 'C1EvS3mDIvVFBeCI85YBjCPyaBYo54kb2xyrzOTz%2FWpWmx1kEc%2F7m6L5U9pWb7rJ2vb6VhWL5oQFWytEkHen4Q%3D%3D', 'searchWrd': '북한산'}
 
     response = requests.get(url, params=params)
-    obj = xmltodict.parse(response.text)
-    print(obj)
-    return obj['response']['body']['items']['item'][1]
+    print(response)
+    return jsonify({'data':response})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
