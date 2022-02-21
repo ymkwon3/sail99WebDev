@@ -19,6 +19,10 @@ def home():
     # /, 즉 기본경로에서 index.html을 렌더링 해줌
     return render_template('index.html')
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
 @app.route("/homework", methods=["POST"])
 def homework_post():
     name_recv = request.form['name_give']
@@ -59,7 +63,7 @@ def get_mountainInfo():
     response = requests.get(url, params=params)
     obj = xmltodict.parse(response.text)
     print(obj)
-    return obj['response']['body']['items']['item'][1]
+    return obj['response']
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
