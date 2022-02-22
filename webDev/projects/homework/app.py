@@ -1,5 +1,3 @@
-import json
-
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -58,11 +56,12 @@ def homework_get():
 @app.route("/mountainInfo", methods=["GET"])
 def get_mountainInfo():
     url = 'http://apis.data.go.kr/1400000/service/cultureInfoService/mntInfoOpenAPI'
-    params = {'serviceKey': 'C1EvS3mDIvVFBeCI85YBjCPyaBYo54kb2xyrzOTz/WpWmx1kEc/7m6L5U9pWb7rJ2vb6VhWL5oQFWytEkHen4Q==', 'searchWrd': '북한산'}
+    params = {'serviceKey': 'C1EvS3mDIvVFBeCI85YBjCPyaBYo54kb2xyrzOTz/WpWmx1kEc/7m6L5U9pWb7rJ2vb6VhWL5oQFWytEkHen4Q==', 'searchWrd': '지리산'
+                                                                                                                                     }
 
     response = requests.get(url, params=params)
     obj = xmltodict.parse(response.text)
-    print(obj)
+    print(obj['response'])
     return obj['response']
 
 if __name__ == '__main__':
