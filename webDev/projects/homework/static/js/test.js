@@ -30,7 +30,7 @@ function getLocation() {
 
         // 마커를 클릭했을 때 마커 위에 표시할 윈도우를 생성합니다.
         var infowindow = new kakao.maps.InfoWindow({
-            content: `<div>hello</div>`,
+            content: `<div style="width: 300px; height: 300px" class="flex-column">hello</div>`,
             removable: true
         })
 
