@@ -5,21 +5,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta property="og:title" content="수고했어 오늘도"/>
-    <meta property="og:description" content="오늘 하루도 고생한 나를 위해 쓰는 글"/>
+    <meta property="og:title" content="수고했어 오늘도" />
+    <meta property="og:description" content="오늘 하루도 고생한 나를 위해 쓰는 글" />
     <meta property="og:image"
-          content="https://p4.wallpaperbetter.com/wallpaper/892/823/629/skyline-vector-vector-art-illustration-simple-hd-wallpaper-preview.jpg"/>
+        content="https://p4.wallpaperbetter.com/wallpaper/892/823/629/skyline-vector-vector-art-illustration-simple-hd-wallpaper-preview.jpg" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
     <!--    카카오맵 api-->
     <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d9d093d51b30a990dd9be3a96f630ff"></script>
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d9d093d51b30a990dd9be3a96f630ff"></script>
 
     <!--    폰트-->
     <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Poor+Story&display=swap" rel="stylesheet">
@@ -47,11 +47,14 @@
             background-color: var(--background);
         }
 
-        input, textarea {
+        input,
+        textarea {
             background-color: var(--background) !important;
         }
 
-        input, textarea, label {
+        input,
+        textarea,
+        label {
             color: var(--color) !important;
         }
 
@@ -107,7 +110,7 @@
             align-items: center;
         }
 
-        .card-body > button {
+        .card-body>button {
             position: absolute;
             right: 15px;
 
@@ -117,7 +120,7 @@
             color: var(--warning);
         }
 
-        .card-body > button:hover {
+        .card-body>button:hover {
             transform: scale(1.05);
             transition-duration: 0.2s;
         }
@@ -176,7 +179,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/homework',
-                data: {name_give: name, comment_give: comment},
+                data: { name_give: name, comment_give: comment },
                 success: function (response) {
                     alert(response['msg'])
                     window.location.reload()
@@ -188,7 +191,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/homework/delete',
-                data: {id_give: id},
+                data: { id_give: id },
                 success: function (response) {
                     alert(response['msg'])
                     window.location.reload()
@@ -208,17 +211,18 @@
                         let comment = rows[i]['comment'];
                         let id = rows[i]['_id'];
 
-                        let temp_html = `
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <blockquote class="blockquote mb-0">
-                                                <p>${comment}</p>
-                                                <footer class="blockquote-footer"><cite title="Source Title">${name}</cite>
-                                                </footer>
-                                            </blockquote>
-                                            <button onclick="delete_comment('${id}')">삭제</button>
-                                        </div>
-                                    </div>
+                        let temp_html =
+                            `
+                            <div class="card">
+                                <div class="card-body">
+                                    <blockquote class="blockquote mb-0">
+                                        <p>${comment}</p>
+                                        <footer class="blockquote-footer"><cite title="Source Title">${name}</cite>
+                                        </footer>
+                                    </blockquote>
+                                    <button onclick="delete_comment('${id}')">삭제</button>
+                                </div>
+                            </div>
                         `
                         $('#posts').append(temp_html);
                     }
@@ -243,33 +247,33 @@
 </head>
 
 <body>
-<div class="mytitle">
-    <h1>수고했어 오늘도</h1>
-    <p>오늘 하루도 고생한 나를 위해 쓰는 글</p>
-    <p>현재 진주의 기온은...<span id="temp"></span>°C</p>
-</div>
-
-<div id="themeBtn" onclick="themeChange()">
-</div>
-
-<div class="mypost">
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="닉네임">
-        <label for="name">닉네임</label>
+    <div class="mytitle">
+        <h1>수고했어 오늘도</h1>
+        <p>오늘 하루도 고생한 나를 위해 쓰는 글</p>
+        <p>현재 진주의 기온은...<span id="temp"></span>°C</p>
     </div>
 
-    <div class="form-floating">
+    <div id="themeBtn" onclick="themeChange()">
+    </div>
+
+    <div class="mypost">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="name" placeholder="닉네임">
+            <label for="name">닉네임</label>
+        </div>
+
+        <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="comment"
-                      style="height: 100px"></textarea>
-        <label for="comment">응원댓글</label>
+                style="height: 100px"></textarea>
+            <label for="comment">응원댓글</label>
+        </div>
+
+        <button type="button" class="btn btn-dark mybtn" onclick="save_comment()">응원 남기기</button>
+
     </div>
 
-    <button type="button" class="btn btn-dark mybtn" onclick="save_comment()">응원 남기기</button>
-
-</div>
-
-<div id="posts">
-</div>
+    <div id="posts">
+    </div>
 </body>
 
 </html>
