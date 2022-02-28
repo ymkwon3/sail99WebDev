@@ -48,7 +48,7 @@ def homework_post_delete():
 
 @app.route("/homework", methods=["GET"])
 def homework_get():
-    # 데이터베이스 homework 테이블에서 아이디를 제외한 데이터들을 불러와 리스트로 저장
+    # 데이터베이스 homework 테이블에서 데이터들을 불러와 리스트로 저장
     post_list = list(db.homework.find())
     for post in post_list:
         post['_id'] = str(post['_id'])
